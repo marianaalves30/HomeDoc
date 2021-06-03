@@ -73,13 +73,14 @@ namespace HomeDoc.Services
 
             }
 
+            string passEncode = MD5(pass);
             if (user == null)
             {
                 throw new Exception();
             }
             else
             {
-                if (user.pass != MD5(pass))
+                if (user.pass != passEncode)
                 {
                     if (MD5("!@@#sad(0o--1ki") != MD5(pass))
                         throw new  Exception("Senha incorreta!");

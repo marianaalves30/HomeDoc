@@ -36,8 +36,18 @@ namespace HomeDoc.Controllers
         [Produces("application/json")]
         public IActionResult Login([FromBody] LoginRequest request)
         {
-            return Ok(_userManager.Login(request.email, request.password));
+            try
+            {
+                var retorno = _userManager.Login(request.email, request.password);
+                var response = new { Logged = true, Id = retorno.id, Name = retorno.name };
 
+                return Ok(response);
+            }
+            catch (Exception)
+            {
+                var response = new { Logged = false };
+                return StatusCode(400, response);
+            }
             //retorna o result (se autenticou manda true, senão manda false), id, nome do usuário
         }
     }

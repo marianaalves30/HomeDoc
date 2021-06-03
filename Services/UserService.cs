@@ -16,7 +16,7 @@ namespace HomeDoc.Services
 {
     public class UserService : IUserService
     {
-        SqlConnection conn = new SqlConnection("Server =.; Database=HomeDoc;Trusted_Connection=True;MultipleActiveResultSets=true");
+        SqlConnection sqlConnection = new SqlConnection("Server =.; Database=HomeDoc;Trusted_Connection=True;MultipleActiveResultSets=true");
 
         public bool IsValid(string emailaddress)
         {
@@ -48,18 +48,12 @@ namespace HomeDoc.Services
 
         public User Login(string email, string pass)
         {
-            //var parameters = new { Email = email};
-            //var query = "SELECT * FROM User WHERE Email = @email and Activated = 1";
-            //var user = conn.Query<User>(query, parameters).FirstOrDefault();
-            var user = new User() ;
-            string a;
-            using (var sqlConnection = new SqlConnection("Server =.; Database = HomeDoc; Trusted_Connection = True; MultipleActiveResultSets = true"))
-            {
-                var parameters = new DynamicParameters();
-                parameters.Add("@Email", email, DbType.String, ParameterDirection.Input);
 
-                user = sqlConnection.QueryFirst<User>("SELECT * FROM [User] WHERE [Email] = @email", parameters);
-            }
+            var parameters = new DynamicParameters();
+            parameters.Add("@Email", email, DbType.String, ParameterDirection.Input);
+
+            User user = sqlConnection.QueryFirst<User>("SELECT * FROM [User] WHERE [Email] = @email", parameters);
+
 
             if (user == null && !IsValid(email))
             {

@@ -38,10 +38,19 @@ namespace HomeDoc.Controllers
         {
             try
             {
-                var retorno = _userManager.Login(request.email, request.password);
-                var response = new { Logged = true, Id = retorno.id, Name = retorno.name };
 
-                return Ok(response);
+                var retorno = _userManager.Login(request.email, request.password);
+                if (retorno.id > 0)
+                {
+                    var response = new { Logged = true, Id = retorno.id, Name = retorno.name };
+                    return Ok(response);
+                }
+                else 
+                {
+                    var response = new { Logged = false };
+                    return StatusCode(400, response);
+                }
+               
             }
             catch (Exception ex)
             {

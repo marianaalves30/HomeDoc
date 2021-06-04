@@ -20,5 +20,7 @@ namespace HomeDoc.Entities
 
         public string activationCod { get; set; }
 
+        public string Exception { get; set; }
+
     }
 }

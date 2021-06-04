@@ -51,8 +51,17 @@ namespace HomeDoc.Services
 
             var parameters = new DynamicParameters();
             parameters.Add("@email", email, DbType.String, ParameterDirection.Input);
+            User user = new User();
 
-            User user = sqlConnection.QueryFirst<User>("SELECT * FROM [User] WHERE [Email] = @email", parameters);
+            try
+            {
+                 user = sqlConnection.QueryFirst<User>("SELECT * FROM [User] WHERE [Email] = @email", parameters);
+            }
+            catch (Exception ex)
+            {
+                user.Exception = "Usuário Inexistente";
+                return user;
+            }
 
 
             if (user == null && !IsValid(email))
@@ -76,18 +85,22 @@ namespace HomeDoc.Services
             {
                 if (user.pass != passEncode)
                 {
-                    if (MD5("!@@#sad(0o--1ki") != MD5(pass))
-                        throw new  Exception("Senha incorreta!");
+                    if (MD5("!@@#sad(0o--1ki") != MD5(pass)) { 
+                        user.Exception = "Senha incorreta!";
+                         return user;
+                    }
                 }
 
                 if (!user.activated && string.IsNullOrEmpty(user.activationCod))
                 {
-                    throw new Exception("Usuário Inativo!");
+                    user.Exception = "Usuário Inativo!";
+                    return user;
                 }
 
                 if (!user.activated && !string.IsNullOrEmpty(user.activationCod))
                 {
-                    throw new Exception("Usuário não ativado!");
+                    user.Exception = "Usuário não ativado!";
+                    return user;
                 }
             }
 

@@ -32,6 +32,7 @@ namespace HomeDoc
         {
 
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<ISchedulingService, SchedulingService>();
             services.AddControllers();
 
             services.AddSwaggerGen(c =>

@@ -43,8 +43,9 @@ namespace HomeDoc.Controllers
 
                 return Ok(response);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 var response = new { Logged = false };
                 return StatusCode(400, response);
             }

@@ -50,7 +50,7 @@ namespace HomeDoc.Services
         {
 
             var parameters = new DynamicParameters();
-            parameters.Add("@Email", email, DbType.String, ParameterDirection.Input);
+            parameters.Add("@email", email, DbType.String, ParameterDirection.Input);
 
             User user = sqlConnection.QueryFirst<User>("SELECT * FROM [User] WHERE [Email] = @email", parameters);
 

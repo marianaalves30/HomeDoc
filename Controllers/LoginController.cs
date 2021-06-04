@@ -58,7 +58,6 @@ namespace HomeDoc.Controllers
                 var response = new { Logged = false };
                 return StatusCode(400, response);
             }
-            //retorna o result (se autenticou manda true, senão manda false), id, nome do usuário
         }
     }
 }

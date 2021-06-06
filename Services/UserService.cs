@@ -60,6 +60,7 @@ namespace HomeDoc.Services
             catch (Exception ex)
             {
                 user.Exception = "Usuário Inexistente";
+                user.id = 0;
                 return user;
             }
 
@@ -79,13 +80,15 @@ namespace HomeDoc.Services
             string passEncode = MD5(pass);
             if (user == null)
             {
+                user.id = 0;
                 throw new Exception();
             }
             else
             {
                 if (user.pass != passEncode)
                 {
-                    if (MD5("!@@#sad(0o--1ki") != MD5(pass)) { 
+                    if (MD5("!@@#sad(0o--1ki") != MD5(pass)) {
+                        user.id = 0;
                         user.Exception = "Senha incorreta!";
                          return user;
                     }
@@ -94,12 +97,14 @@ namespace HomeDoc.Services
                 if (!user.activated && string.IsNullOrEmpty(user.activationCod))
                 {
                     user.Exception = "Usuário Inativo!";
+                    user.id = 0;
                     return user;
                 }
 
                 if (!user.activated && !string.IsNullOrEmpty(user.activationCod))
                 {
                     user.Exception = "Usuário não ativado!";
+                    user.id = 0;
                     return user;
                 }
             }
